@@ -2,25 +2,25 @@ let vm = new Vue({
   el: "#game_board",
   data: {
     gameflow: [],
-    gameflowSude: [],
+    gameflowSute: [],
   },
   mounted() {
     fetch("./gameRecordDict.json")
       .then((res) => res.json())
       .then((result) => {
         this.gameflow = result
-        this.gameflowSude = []
+        this.gameflowSute = []
         this.gameflow.playRecord.forEach((element) => {
           if (element.actionNum == 1) {
-            this.gameflowSude.push(JSON.parse(JSON.stringify(element)))
-            this.gameflowSude[this.gameflowSude.length - 1].tehai = [].concat(...this.gameflowSude[this.gameflowSude.length - 1].tehai)
-            //console.log(this.gameflowSude[this.gameflowSude.length -1].tehai)
+            this.gameflowSute.push(JSON.parse(JSON.stringify(element)))
+            this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
+            //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
           }
         })
-        //console.log(this.gameflowSude)
+        //console.log(this.gameflowSute)
         this.draw_game_board()
-        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)))
-        this.slider(this.gameflow.initCard, this.gameflowSude, 1)
+        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1)
+        this.slider(this.gameflow.initCard, this.gameflowSute, 1)
       })
   },
   methods: {
@@ -146,7 +146,7 @@ let vm = new Vue({
           return x(d.xx)
         })
         .attr("y", function (d) {
-          return y(d.yy)
+          return y(d.yy) + 20
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -168,7 +168,7 @@ let vm = new Vue({
           return x(d.xx) + 14
         })
         .attr("y", function (d) {
-          return y(d.yy)
+          return y(d.yy) + 20
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -190,7 +190,7 @@ let vm = new Vue({
           return x(d.xx)
         })
         .attr("y", function (d) {
-          return y(d.yy) + 20
+          return y(d.yy)
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -212,7 +212,7 @@ let vm = new Vue({
           return x(d.xx) + 14
         })
         .attr("y", function (d) {
-          return y(d.yy) + 20
+          return y(d.yy)
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -227,55 +227,54 @@ let vm = new Vue({
 
       // Add title to graph
       svg.append("text").attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("牌局視覺化")
-
-      // let label = d3.select("svg")
-      //   .selectAll(".label")
-      //   .data(numY)
-      //   .enter()
-      //   .append("g")
-      //   .attr("transform", "translate(" + 1000 + "," + 100 + ")");
-
-      // label
-      //   .append("rect")
-      //   .attr("x", 0)
-      //   .attr("y", function (d, i) {
-      //     return 20
-      //   })
-      //   .attr("rx", "10")
-      //   .attr("ry", "10")
-      //   .attr("width", 50)
-      //   .attr("height", 20)
-      //   .style("fill", "blue")
     },
-    init_board(initCard) {
+    init_board(initCard, targetIndex) {
       //console.log(JSON.parse(JSON.stringify(initCard)))
       //console.log(initCard)
-      var linear = d3.scaleLinear().domain([1, 4]).range([0.4, 1])
+      targetCard = -1
+      while(targetIndex >= 0){
+        if(this.gameflow.playRecord[targetIndex].actionNum == 0){
+          console.log(this.gameflow.playRecord[targetIndex])
+          targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
+          console.log(targetCard)
+          break
+        }
+        else if(this.gameflow.playRecord[targetIndex].actionNum == 2){
+          targetIndex--
+          console.log(this.gameflow.playRecord[targetIndex])
+          targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
+          console.log(targetCard)
+          break
+        }
+        targetIndex--
+      }
+      // var linear = d3.scaleLinear().domain([1, 4]).range([0.4, 1])
 
       d3.selectAll("rect").style("fill", (d) => {
         color = ""
         initCard.forEach((player, playerIndex) => {
-          // if(playerIndex == 0){
-          //   console.log(JSON.parse(JSON.stringify(player)))
-          // }
           player.every((card, index) => {
             if (~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
               d.owner = d.yy
               d.num_of_cards++
               player.splice(index, 1)
+              inter = 0.4
+              if(card == targetCard){
+                inter = 0.8
+              }
               //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
               switch (playerIndex) {
                 case 0:
-                  color = d3.interpolatePurples(0.4)
+                  color = d3.interpolatePurples(inter)
                   break
                 case 1:
-                  color = d3.interpolateBlues(0.4)
+                  color = d3.interpolateBlues(inter)
                   break
                 case 2:
-                  color = d3.interpolateOranges(0.4)
+                  color = d3.interpolateOranges(inter)
                   break
                 case 3:
-                  color = d3.interpolateReds(0.4)
+                  color = d3.interpolateReds(inter)
                   break
               }
               return false
@@ -287,8 +286,8 @@ let vm = new Vue({
         return color
       })
     },
-    slider(initCard, gameflowSude) {
-      gameLength = gameflowSude.length
+    slider(initCard, gameflowSute) {
+      gameLength = gameflowSute.length
       console.log(gameLength)
       var dataTime = []
       for (i = 1; i <= gameLength; i++) {
@@ -308,32 +307,44 @@ let vm = new Vue({
         .default(1)
         .on("onchange", (val) => {
           //console.log(val)
-          this.update(JSON.parse(JSON.stringify(initCard)), gameflowSude, val - 2)
+          this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2)
         })
 
       var gTime = d3.select("div#slider-time").append("svg").attr("width", 1050).attr("height", 100).append("g").attr("transform", "translate(35,30)")
 
       gTime.call(sliderTime)
     },
-    update(initCard, gameflowSude, curkyoku) {
+    update(initCard, gameflowSute, curkyoku) {
+      tmp = curkyoku
       playerLeft = [0, 1, 2, 3]
       d3.selectAll("rect").style("fill", (d) => {
         d.owner = "無"
         d.num_of_cards = 0
       })
       while (playerLeft.length > 0 && curkyoku >= 0) {
-        if (playerLeft.includes(gameflowSude[curkyoku].who)) {
+        if (playerLeft.includes(gameflowSute[curkyoku].who)) {
           for (i = 0; i < playerLeft.length; i++) {
-            if (gameflowSude[curkyoku].who == playerLeft[i]) {
+            if (gameflowSute[curkyoku].who == playerLeft[i]) {
               playerLeft.splice(i, 1)
             }
           }
-          initCard[gameflowSude[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSude[curkyoku].tehai))
+          initCard[gameflowSute[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSute[curkyoku].tehai))
         }
         curkyoku--
       }
       //console.log((JSON.parse(JSON.stringify(initCard))))
-      this.init_board(initCard)
+      targetIndex = 0
+      if (tmp >= 0) {
+        count = -1
+        for (i = 0; i < this.gameflow.playRecord.length; i++) {
+          if (this.gameflow.playRecord[i].actionNum == 1) count++
+          if (count == tmp) {
+            targetIndex = i
+            break
+          }
+        }
+      }
+      this.init_board(initCard, targetIndex)
     },
   },
 })
