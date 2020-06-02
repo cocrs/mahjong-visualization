@@ -234,16 +234,15 @@ let vm = new Vue({
       targetCard = -1
       while(targetIndex >= 0){
         if(this.gameflow.playRecord[targetIndex].actionNum == 0){
-          console.log(this.gameflow.playRecord[targetIndex])
+          
           targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
-          console.log(targetCard)
+          // console.log(targetCard)
           break
         }
         else if(this.gameflow.playRecord[targetIndex].actionNum == 2){
           targetIndex--
-          console.log(this.gameflow.playRecord[targetIndex])
           targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
-          console.log(targetCard)
+          // console.log(targetCard)
           break
         }
         targetIndex--
@@ -290,8 +289,8 @@ let vm = new Vue({
       gameLength = gameflowSute.length
       console.log(gameLength)
       var dataTime = []
-      for (i = 1; i <= gameLength; i++) {
-        if (i % 4 == 0 || i == 1 || i == gameLength) {
+      for (i = 1; i <= gameLength + 1; i++) {
+        if (i % 4 == 0 || i == 1 || i == gameLength + 1) {
           dataTime.push(i)
         }
       }
@@ -317,6 +316,7 @@ let vm = new Vue({
     update(initCard, gameflowSute, curkyoku) {
       tmp = curkyoku
       playerLeft = [0, 1, 2, 3]
+      // console.log(curkyoku, gameflowSute[curkyoku])
       d3.selectAll("rect").style("fill", (d) => {
         d.owner = "無"
         d.num_of_cards = 0
@@ -332,7 +332,7 @@ let vm = new Vue({
         }
         curkyoku--
       }
-      //console.log((JSON.parse(JSON.stringify(initCard))))
+      
       targetIndex = 0
       if (tmp >= 0) {
         count = -1
@@ -344,7 +344,8 @@ let vm = new Vue({
           }
         }
       }
-      this.init_board(initCard, targetIndex)
+      // console.log(this.gameflow.playRecord[targetIndex])
+      this.init_board(initCard, targetIndex - 1)
     },
   },
 })
