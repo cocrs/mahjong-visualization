@@ -260,20 +260,21 @@ let vm = new Vue({
               }
               player.splice(index, 1)
               //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
-              switch (playerIndex) {
-                case 0:
-                  color = d3.interpolatePurples(inter)
-                  break
-                case 1:
-                  color = d3.interpolateBlues(inter)
-                  break
-                case 2:
-                  color = d3.interpolateOranges(inter)
-                  break
-                case 3:
-                  color = d3.interpolateReds(inter)
-                  break
-              }
+              color = d3.interpolatePurples(inter)
+              // switch (playerIndex) {
+              //   case 0:
+              //     color = d3.interpolatePurples(inter)
+              //     break
+              //   case 1:
+              //     color = d3.interpolateBlues(inter)
+              //     break
+              //   case 2:
+              //     color = d3.interpolateOranges(inter)
+              //     break
+              //   case 3:
+              //     color = d3.interpolateReds(inter)
+              //     break
+              // }
               return false
             }
             return true
