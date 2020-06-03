@@ -148,8 +148,7 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy) + 18
         })
-        .attr("rx", 4)
-        .attr("ry", 4)
+        
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -170,8 +169,7 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy) + 18
         })
-        .attr("rx", 4)
-        .attr("ry", 4)
+  
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -192,8 +190,7 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy)
         })
-        .attr("rx", 4)
-        .attr("ry", 4)
+       
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -214,8 +211,7 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy)
         })
-        .attr("rx", 4)
-        .attr("ry", 4)
+       
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
