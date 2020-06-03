@@ -115,7 +115,14 @@ let vm = new Vue({
       // Three function that change the tooltip when user hover / move / leave a cell
       var mouseover = function (d) {
         tooltip.style("opacity", 1)
-        d3.select(this).style("stroke", "black").style("opacity", 1)
+        curx = d.xx
+        cury = d.yy
+        d3.selectAll("rect").style("opacity", (d) => {
+          if(d.xx == curx && d.yy == cury){
+            return 1
+          }
+          return 0.8
+        })
       }
       var mousemove = function (d) {
         tooltip
@@ -125,9 +132,8 @@ let vm = new Vue({
       }
       var mouseleave = function (d) {
         tooltip.style("opacity", 0)
-        d3.select(this).style("stroke", "none").style("opacity", 0.8)
+        d3.selectAll("rect").style("opacity", 0.8)
       }
-
       // square data
       var num_of_blocks = []
       for (i = 0; i < 4; i++) {
@@ -148,7 +154,6 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy) + 18
         })
-        
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -169,7 +174,6 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy) + 18
         })
-  
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -190,7 +194,6 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy)
         })
-       
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -211,7 +214,6 @@ let vm = new Vue({
         .attr("y", function (d) {
           return y(d.yy)
         })
-       
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
         .style("stroke-width", 4)
@@ -242,7 +244,6 @@ let vm = new Vue({
         }
         targetIndex--
       }
-      console.log(targetList)
       var linear = d3.scaleLinear().domain([1, 5]).range([0.6, 1])
 
       d3.selectAll("rect").style("fill", (d) => {
