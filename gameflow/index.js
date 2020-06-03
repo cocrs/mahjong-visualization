@@ -74,7 +74,7 @@ let vm = new Vue({
       }
 
       // Build X scales and axis:
-      var x = d3.scaleBand().range([0, width]).domain(numX).padding(0.05)
+      var x = d3.scaleBand().range([0, width]).domain(numX).padding(0.1)
       svg
         .append("g")
         .style("font-size", 15)
@@ -96,7 +96,7 @@ let vm = new Vue({
         .attr("y", 0)
 
       // Build Y scales and axis:
-      var y = d3.scaleBand().range([height, 0]).domain(numY).padding(0.05)
+      var y = d3.scaleBand().range([height, 0]).domain(numY).padding(0.1)
       svg.append("g").style("font-size", 15).call(d3.axisLeft(y).tickSize(0)).select(".domain").remove()
 
       // create a tooltip
@@ -146,7 +146,7 @@ let vm = new Vue({
           return x(d.xx)
         })
         .attr("y", function (d) {
-          return y(d.yy) + 20
+          return y(d.yy) + 18
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -165,10 +165,10 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx) + 14
+          return x(d.xx) + 13
         })
         .attr("y", function (d) {
-          return y(d.yy) + 20
+          return y(d.yy) + 18
         })
         .attr("rx", 4)
         .attr("ry", 4)
@@ -209,7 +209,7 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx) + 14
+          return x(d.xx) + 13
         })
         .attr("y", function (d) {
           return y(d.yy)
@@ -232,22 +232,22 @@ let vm = new Vue({
       //console.log(JSON.parse(JSON.stringify(initCard)))
       //console.log(initCard)
       targetCard = -1
-      while(targetIndex >= 0){
+      targetList = []
+      while(targetList.length < 5 && targetIndex >= 0){
         if(this.gameflow.playRecord[targetIndex].actionNum == 0){
           
-          targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
+          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
           // console.log(targetCard)
-          break
         }
         else if(this.gameflow.playRecord[targetIndex].actionNum == 2){
           targetIndex--
-          targetCard = (this.gameflow.playRecord[targetIndex].detail.targ)
+          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
           // console.log(targetCard)
-          break
         }
         targetIndex--
       }
-      // var linear = d3.scaleLinear().domain([1, 4]).range([0.4, 1])
+      console.log(targetList)
+      var linear = d3.scaleLinear().domain([1, 5]).range([0.6, 1])
 
       d3.selectAll("rect").style("fill", (d) => {
         color = ""
@@ -256,11 +256,12 @@ let vm = new Vue({
             if (~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
               d.owner = d.yy
               d.num_of_cards++
-              player.splice(index, 1)
               inter = 0.4
-              if(card == targetCard){
-                inter = 0.8
+              if(targetList.includes(card)){
+                d = 4 - targetList.length
+                inter = linear(targetList.indexOf(card) + d)
               }
+              player.splice(index, 1)
               //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
               switch (playerIndex) {
                 case 0:
@@ -287,7 +288,7 @@ let vm = new Vue({
     },
     slider(initCard, gameflowSute) {
       gameLength = gameflowSute.length
-      console.log(gameLength)
+      // console.log(gameLength)
       var dataTime = []
       for (i = 1; i <= gameLength + 1; i++) {
         if (i % 4 == 0 || i == 1 || i == gameLength + 1) {
