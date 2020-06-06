@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="./style.css" />
+</head>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+<body>
+    <svg id="chart" width="550" height="550"></svg>
+    <div>
+        <input type="radio" name="choose_type" checked onclick="update_chart('和了率')">和了率<br>
+        <input type="radio" name="choose_type" onclick="update_chart('平均和了点')">平均和了点<br>
+        <input type="radio" name="choose_type" onclick="update_chart('和了点期待値')">和了点期待値<br>
+    </div>
+    
+    <script src="./index.js"></script>
+</body>
+
+</html>
