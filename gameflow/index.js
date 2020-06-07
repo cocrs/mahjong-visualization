@@ -8,30 +8,29 @@ let vm = new Vue({
     fetch("./gameRecordDict.json")
       .then((res) => res.json())
       .then((result) => {
-        this.gameflow = result
-        this.gameflowSute = []
+        this.gameflow = result;
+        this.gameflowSute = [];
         this.gameflow.playRecord.forEach((element) => {
           if (element.actionNum == 1) {
-            this.gameflowSute.push(JSON.parse(JSON.stringify(element)))
-            this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
+            this.gameflowSute.push(JSON.parse(JSON.stringify(element)));
+            this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai);
             //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
           }
-          if(element.tehai !== undefined){
-            element.tehai = [].concat(...element.tehai)
+          if (element.tehai !== undefined) {
+            element.tehai = [].concat(...element.tehai);
           }
-          
-        })
+        });
         //console.log(this.gameflowSute)
-        this.draw_game_board()
-        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1)
-        this.slider(this.gameflow.initCard, this.gameflow.playRecord, 1)
-      })
+        this.draw_game_board();
+        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1);
+        this.slider(this.gameflow.initCard, this.gameflow.playRecord, 1);
+      });
   },
   methods: {
     draw_game_board() {
       var margin = { top: 80, right: 25, bottom: 30, left: 60 },
         width = 1085 - margin.left - margin.right,
-        height = 280 - margin.top - margin.bottom
+        height = 280 - margin.top - margin.bottom;
 
       // append the svg object to the body of the page
       var svg = d3
@@ -40,68 +39,68 @@ let vm = new Vue({
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       // pic path array
-      var numX = []
+      var numX = [];
       for (i = 0; i < 34; i++) {
-        numX.push("" + i)
+        numX.push("" + i);
       }
-      var myPics = []
+      var myPics = [];
       for (j = 0; j < 3; j++) {
         switch (j) {
           case 0:
-            fuda = "w"
-            break
+            fuda = "w";
+            break;
           case 1:
-            fuda = "t"
-            break
+            fuda = "t";
+            break;
           case 2:
-            fuda = "s"
-            break
+            fuda = "s";
+            break;
         }
         for (i = 0; i < 9; i++) {
-          myPics.push({ img: "./pic/" + (i + 1) + fuda + ".png" })
+          myPics.push({ img: "./pic/" + (i + 1) + fuda + ".png" });
         }
       }
-      myPics.push({ img: "./pic/east.png" })
-      myPics.push({ img: "./pic/south.png" })
-      myPics.push({ img: "./pic/west.png" })
-      myPics.push({ img: "./pic/north.png" })
-      myPics.push({ img: "./pic/bai.png" })
-      myPics.push({ img: "./pic/fa.png" })
-      myPics.push({ img: "./pic/chong.png" })
+      myPics.push({ img: "./pic/east.png" });
+      myPics.push({ img: "./pic/south.png" });
+      myPics.push({ img: "./pic/west.png" });
+      myPics.push({ img: "./pic/north.png" });
+      myPics.push({ img: "./pic/bai.png" });
+      myPics.push({ img: "./pic/fa.png" });
+      myPics.push({ img: "./pic/chong.png" });
 
-      numY = []
+      numY = [];
       for (i = 0; i < 4; i++) {
-        numY.push("player" + (i + 1))
+        numY.push("player" + (i + 1));
       }
 
       // Build X scales and axis:
-      var x = d3.scaleBand().range([0, width]).domain(numX).padding(0.1)
+      var x = d3.scaleBand().range([0, width]).domain(numX).padding(0.1);
       svg
         .append("g")
         .style("font-size", 15)
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x).tickSize(0))
         .select(".domain")
-        .remove()
+        .remove();
 
       svg
         .selectAll(".tick")
         .data(myPics)
         .append("svg:image")
         .attr("xlink:href", function (d) {
-          return d.img
+          return d.img;
         })
         .attr("width", 30)
         .attr("height", 30)
         .attr("x", -15)
-        .attr("y", 0)
+        .attr("y", 0);
 
       // Build Y scales and axis:
-      var y = d3.scaleBand().range([height, 0]).domain(numY).padding(0.1)
-      svg.append("g").style("font-size", 15).call(d3.axisLeft(y).tickSize(0)).select(".domain").remove()
+      var y = d3.scaleBand().range([height, 0]).domain(numY).padding(0.1);
+      svg.append("g").style("font-size", 15).call(d3.axisLeft(y).tickSize(0)).select(".domain").remove();
 
       // create a tooltip
       var tooltip = d3
@@ -114,35 +113,35 @@ let vm = new Vue({
         .style("border", "solid")
         .style("border-width", "2px")
         .style("border-radius", "5px")
-        .style("padding", "5px")
+        .style("padding", "5px");
 
       // Three function that change the tooltip when user hover / move / leave a cell
       var mouseover = function (d) {
-        tooltip.style("opacity", 1)
-        curx = d.xx
-        cury = d.yy
+        tooltip.style("opacity", 1);
+        curx = d.xx;
+        cury = d.yy;
         d3.selectAll("rect").style("opacity", (d) => {
-          if(d.xx == curx && d.yy == cury){
-            return 1
+          if (d.xx == curx && d.yy == cury) {
+            return 1;
           }
-          return 0.8
-        })
-      }
+          return 0.8;
+        });
+      };
       var mousemove = function (d) {
         tooltip
           .html(d.yy + "<br/>持有數: " + d.num_of_cards)
           .style("left", d3.event.pageX - 20 + "px")
-          .style("top", d3.event.pageY + 20 + "px")
-      }
+          .style("top", d3.event.pageY + 20 + "px");
+      };
       var mouseleave = function (d) {
-        tooltip.style("opacity", 0)
-        d3.selectAll("rect").style("opacity", 0.8)
-      }
+        tooltip.style("opacity", 0);
+        d3.selectAll("rect").style("opacity", 0.8);
+      };
       // square data
-      var num_of_blocks = []
+      var num_of_blocks = [];
       for (i = 0; i < 4; i++) {
         for (j = 0; j < 34; j++) {
-          num_of_blocks.push({ xx: numX[j], yy: numY[i], owner: "無", num_of_cards: 0 })
+          num_of_blocks.push({ xx: numX[j], yy: numY[i], owner: "無", num_of_cards: 0 });
         }
       }
 
@@ -153,10 +152,10 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx)
+          return x(d.xx);
         })
         .attr("y", function (d) {
-          return y(d.yy) + 18
+          return y(d.yy) + 18;
         })
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
@@ -165,7 +164,7 @@ let vm = new Vue({
         .style("opacity", 0.8)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
+        .on("mouseleave", mouseleave);
 
       svg
         .selectAll()
@@ -173,10 +172,10 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx) + 13
+          return x(d.xx) + 13;
         })
         .attr("y", function (d) {
-          return y(d.yy) + 18
+          return y(d.yy) + 18;
         })
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
@@ -185,7 +184,7 @@ let vm = new Vue({
         .style("opacity", 0.8)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
+        .on("mouseleave", mouseleave);
 
       svg
         .selectAll()
@@ -193,10 +192,10 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx)
+          return x(d.xx);
         })
         .attr("y", function (d) {
-          return y(d.yy)
+          return y(d.yy);
         })
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
@@ -205,7 +204,7 @@ let vm = new Vue({
         .style("opacity", 0.8)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
+        .on("mouseleave", mouseleave);
 
       svg
         .selectAll()
@@ -213,10 +212,10 @@ let vm = new Vue({
         .enter()
         .append("rect")
         .attr("x", function (d) {
-          return x(d.xx) + 13
+          return x(d.xx) + 13;
         })
         .attr("y", function (d) {
-          return y(d.yy)
+          return y(d.yy);
         })
         .attr("width", x.bandwidth() / 2)
         .attr("height", y.bandwidth() / 2)
@@ -225,68 +224,75 @@ let vm = new Vue({
         .style("opacity", 0.8)
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
-        .on("mouseleave", mouseleave)
+        .on("mouseleave", mouseleave);
 
       // Add title to graph
-      svg.append("text").attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("牌局視覺化")
-      svg.append("text").attr("id", "action").attr("x", 120).attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("")
+      svg.append("text").attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("牌局視覺化");
+      svg
+        .append("text")
+        .attr("id", "action")
+        .attr("x", 120)
+        .attr("y", -20)
+        .style("font-size", "22px")
+        .style("font-weight", "bold")
+        .style("font-family", "Microsoft JhengHei")
+        .text("");
     },
     init_board(initCard, targetIndex) {
       // console.log(JSON.parse(JSON.stringify(initCard)))
-      console.log(targetIndex)
-      curAtion = ""
-      targetCard = -1
-      targetList = []
-      sutePair = [-1, -1]
-      if(targetIndex >= 0){
-        switch(this.gameflow.playRecord[targetIndex].actionNum){
+      console.log(targetIndex);
+      curAtion = "";
+      targetCard = -1;
+      targetList = [];
+      sutePair = [-1, -1];
+      if (targetIndex >= 0) {
+        switch (this.gameflow.playRecord[targetIndex].actionNum) {
           case 0:
-            curAtion = "摸牌"
-            break
+            curAtion = "摸牌";
+            break;
           case 1:
-            curAtion = "丟牌"
-            break
+            curAtion = "丟牌";
+            break;
           case 2:
-            curAtion = "鳴牌"
-            break
+            curAtion = "鳴牌";
+            break;
         }
       }
-      d3.select("#action").text(curAtion)
-      if(targetIndex >= 0 && this.gameflow.playRecord[targetIndex].actionNum == 1){
-        sutePair = [this.gameflow.playRecord[targetIndex].detail.targ, this.gameflow.playRecord[targetIndex].who]
+      d3.select("#action").text(curAtion);
+      if (targetIndex >= 0 && this.gameflow.playRecord[targetIndex].actionNum == 1) {
+        sutePair = [this.gameflow.playRecord[targetIndex].detail.targ, this.gameflow.playRecord[targetIndex].who];
       }
-      while(targetList.length < 5 && targetIndex >= 0){
-        if(this.gameflow.playRecord[targetIndex].actionNum == 0){
-          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
+      while (targetList.length < 5 && targetIndex >= 0) {
+        if (this.gameflow.playRecord[targetIndex].actionNum == 0) {
+          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ);
           // console.log(targetCard)
-        }
-        else if(this.gameflow.playRecord[targetIndex].actionNum == 2){
-          targetIndex--
-          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
+        } else if (this.gameflow.playRecord[targetIndex].actionNum == 2) {
+          targetIndex--;
+          targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ);
           // console.log(targetCard)
         }
         // targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
         // console.log(this.gameflow.playRecord[targetIndex], this.gameflow.playRecord[targetIndex].detail.targ)
-        targetIndex--
+        targetIndex--;
       }
-      console.log(targetList)
-      var linear = d3.scaleLinear().domain([1, 5]).range([0.6, 1])
+      console.log(targetList);
+      var linear = d3.scaleLinear().domain([1, 5]).range([0.6, 1]);
 
       d3.selectAll("rect").style("fill", (d) => {
-        color = ""
+        color = "";
         initCard.forEach((player, playerIndex) => {
           player.every((card, index) => {
             if (~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
-              d.owner = d.yy
-              d.num_of_cards++
-              inter = 0.4
-              if(targetList.includes(card)){
-                d = 4 - targetList.length
-                inter = linear(targetList.indexOf(card) + d)
+              d.owner = d.yy;
+              d.num_of_cards++;
+              inter = 0.4;
+              if (targetList.includes(card)) {
+                d = 4 - targetList.length;
+                inter = linear(targetList.indexOf(card) + d);
               }
-              player.splice(index, 1)
+              player.splice(index, 1);
               //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
-              color = d3.interpolatePurples(inter)
+              color = d3.interpolatePurples(inter);
               // switch (playerIndex) {
               //   case 0:
               //     color = d3.interpolatePurples(inter)
@@ -301,25 +307,24 @@ let vm = new Vue({
               //     color = d3.interpolateReds(inter)
               //     break
               // }
-              return false
+              return false;
+            } else if (~~(sutePair[0] / 4) == d.xx && sutePair[1] == parseInt(d.yy.replace("player", "")) - 1) {
+              sutePair = [-1, -1];
+              color = "gray";
             }
-            else if(~~(sutePair[0] / 4) == d.xx && sutePair[1] == parseInt(d.yy.replace("player", "")) - 1){
-              sutePair = [-1, -1]
-              color = "gray"
-            }
-            return true
-          })
-        })
-        return color
-      })
+            return true;
+          });
+        });
+        return color;
+      });
     },
     slider(initCard, gameflowSute) {
-      gameLength = gameflowSute.length
+      gameLength = gameflowSute.length;
       // console.log(gameLength)
-      var dataTime = []
+      var dataTime = [];
       for (i = 1; i <= gameLength + 1; i++) {
         if (i % 4 == 0 || i == 1 || i == gameLength + 1) {
-          dataTime.push(i)
+          dataTime.push(i);
         }
       }
 
@@ -334,31 +339,37 @@ let vm = new Vue({
         .default(1)
         .on("onchange", (val) => {
           // console.log(val)
-          this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2)
-        })
+          this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2);
+        });
 
-      var gTime = d3.select("div#slider-time").append("svg").attr("width", 1050).attr("height", 100).append("g").attr("transform", "translate(35,30)")
+      var gTime = d3
+        .select("div#slider-time")
+        .append("svg")
+        .attr("width", 1050)
+        .attr("height", 100)
+        .append("g")
+        .attr("transform", "translate(35,30)");
 
-      gTime.call(sliderTime)
+      gTime.call(sliderTime);
     },
     update(initCard, gameflowSute, curkyoku) {
-      tmp = curkyoku
-      playerLeft = [0, 1, 2, 3]
+      tmp = curkyoku;
+      playerLeft = [0, 1, 2, 3];
       // console.log(curkyoku, gameflowSute[curkyoku])
       d3.selectAll("rect").style("fill", (d) => {
-        d.owner = "無"
-        d.num_of_cards = 0
-      })
+        d.owner = "無";
+        d.num_of_cards = 0;
+      });
       while (playerLeft.length > 0 && curkyoku >= 0) {
         if (playerLeft.includes(gameflowSute[curkyoku].who)) {
           for (i = 0; i < playerLeft.length; i++) {
             if (gameflowSute[curkyoku].who == playerLeft[i]) {
-              playerLeft.splice(i, 1)
+              playerLeft.splice(i, 1);
             }
           }
-          initCard[gameflowSute[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSute[curkyoku].tehai))
+          initCard[gameflowSute[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSute[curkyoku].tehai));
         }
-        curkyoku--
+        curkyoku--;
       }
       // console.log(JSON.parse(JSON.stringify(initCard)))
       // targetIndex = 0
@@ -372,8 +383,8 @@ let vm = new Vue({
       //     }
       //   }
       // }
-      
-      this.init_board(initCard, tmp)
+
+      this.init_board(initCard, tmp);
     },
   },
-})
+});
