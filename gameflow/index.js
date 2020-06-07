@@ -16,11 +16,15 @@ let vm = new Vue({
             this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
             //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
           }
+          if(element.tehai !== undefined){
+            element.tehai = [].concat(...element.tehai)
+          }
+          
         })
         //console.log(this.gameflowSute)
         this.draw_game_board()
         this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1)
-        this.slider(this.gameflow.initCard, this.gameflowSute, 1)
+        this.slider(this.gameflow.initCard, this.gameflow.playRecord, 1)
       })
   },
   methods: {
@@ -225,15 +229,34 @@ let vm = new Vue({
 
       // Add title to graph
       svg.append("text").attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("牌局視覺化")
+      svg.append("text").attr("id", "action").attr("x", 120).attr("y", -20).style("font-size", "22px").style("font-family", "Microsoft JhengHei").text("")
     },
     init_board(initCard, targetIndex) {
-      //console.log(JSON.parse(JSON.stringify(initCard)))
-      //console.log(initCard)
+      // console.log(JSON.parse(JSON.stringify(initCard)))
+      console.log(targetIndex)
+      curAtion = ""
       targetCard = -1
       targetList = []
+      sutePair = [-1, -1]
+      if(targetIndex >= 0){
+        switch(this.gameflow.playRecord[targetIndex].actionNum){
+          case 0:
+            curAtion = "摸牌"
+            break
+          case 1:
+            curAtion = "丟牌"
+            break
+          case 2:
+            curAtion = "鳴牌"
+            break
+        }
+      }
+      d3.select("#action").text(curAtion)
+      if(targetIndex >= 0 && this.gameflow.playRecord[targetIndex].actionNum == 1){
+        sutePair = [this.gameflow.playRecord[targetIndex].detail.targ, this.gameflow.playRecord[targetIndex].who]
+      }
       while(targetList.length < 5 && targetIndex >= 0){
         if(this.gameflow.playRecord[targetIndex].actionNum == 0){
-          
           targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
           // console.log(targetCard)
         }
@@ -242,8 +265,11 @@ let vm = new Vue({
           targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
           // console.log(targetCard)
         }
+        // targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
+        // console.log(this.gameflow.playRecord[targetIndex], this.gameflow.playRecord[targetIndex].detail.targ)
         targetIndex--
       }
+      console.log(targetList)
       var linear = d3.scaleLinear().domain([1, 5]).range([0.6, 1])
 
       d3.selectAll("rect").style("fill", (d) => {
@@ -277,10 +303,13 @@ let vm = new Vue({
               // }
               return false
             }
+            else if(~~(sutePair[0] / 4) == d.xx && sutePair[1] == parseInt(d.yy.replace("player", "")) - 1){
+              sutePair = [-1, -1]
+              color = "gray"
+            }
             return true
           })
         })
-
         return color
       })
     },
@@ -304,7 +333,7 @@ let vm = new Vue({
         .tickValues(dataTime)
         .default(1)
         .on("onchange", (val) => {
-          //console.log(val)
+          // console.log(val)
           this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2)
         })
 
@@ -331,20 +360,20 @@ let vm = new Vue({
         }
         curkyoku--
       }
+      // console.log(JSON.parse(JSON.stringify(initCard)))
+      // targetIndex = 0
+      // if (tmp >= 0) {
+      //   count = -1
+      //   for (i = 0; i < this.gameflow.playRecord.length; i++) {
+      //     if (this.gameflow.playRecord[i].actionNum == 1) count++
+      //     if (count == tmp) {
+      //       targetIndex = i
+      //       break
+      //     }
+      //   }
+      // }
       
-      targetIndex = 0
-      if (tmp >= 0) {
-        count = -1
-        for (i = 0; i < this.gameflow.playRecord.length; i++) {
-          if (this.gameflow.playRecord[i].actionNum == 1) count++
-          if (count == tmp) {
-            targetIndex = i
-            break
-          }
-        }
-      }
-      // console.log(this.gameflow.playRecord[targetIndex])
-      this.init_board(initCard, targetIndex - 1)
+      this.init_board(initCard, tmp)
     },
   },
 })
