@@ -68,7 +68,7 @@ function wordCloud(selector) {
                 .transition()
                 .style("opacity", 1)
                 .attr("d", function (d) {
-                    label = d.text + "<br/>freq: " + d.freq;
+                    label = d.text + "<br/>出現次數： " + d.freq + "<br/>出現機率： " + (d.freq / 2000) + "%";
                 });
             let target = this
             d3v3.selectAll(".cloud text")
