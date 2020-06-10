@@ -23,7 +23,7 @@ function wordCloud(selector) {
             .enter()
             .append("text")
             //.style("opacity", 0.7)
-            .style("font-family", 'Noto Sans TC')
+            .style("font-family", 'Noto Sans JP')
             .style("fill", function (d, i) {
                 if (i >= 20) return fill2(i - 20);
                 if (i >= 40) return fill3(i - 40);
@@ -109,7 +109,7 @@ function wordCloud(selector) {
                 .rotate(function () {
                     return ~~(Math.random() * 2) * 90;
                 })
-                .font('Noto Sans TC')
+                .font('Noto Sans JP')
                 .fontSize(function (d) {
                     return linear(d.size);
                 })
