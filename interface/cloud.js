@@ -71,7 +71,7 @@ function wordCloud(selector) {
                     label = d.text + "<br/>freq: " + d.freq;
                 });
             let target = this
-            d3v3.selectAll("text")
+            d3v3.selectAll(".cloud text")
                 .transition()
                 .style("opacity", function (t) {
                     return this == target ? 1 : 0.2
@@ -85,7 +85,7 @@ function wordCloud(selector) {
                 .style("visibility", "visible");
         });
         cloud.on("mouseout", function () {
-            d3v3.selectAll("text")
+            d3v3.selectAll(".cloud text")
                 .transition()
                 .style("opacity", 1);
             //d3v3.select(this).style("opacity", 0.7);
