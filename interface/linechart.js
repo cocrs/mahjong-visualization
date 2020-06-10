@@ -158,7 +158,7 @@ function hover(svg, data, start) {
     function moved() {
         console.log("Move");
         d3.event.preventDefault();
-        const xm = x.invert(d3.event.offsetX)-3;
+        const xm = x.invert(d3.event.offsetX) - 3;
         var data_key = []
         for (d in data) {
             data_key.push(d);
@@ -168,7 +168,7 @@ function hover(svg, data, start) {
         const i = xm - data_key[i0] > data_key[i1] - xm ? i1 : i0;
 
         dot.attr("transform", `translate(${x(data[i].x_value)},${y(data[i].y_value)})`);
-        dot.select("text").text('巡目' + data[i].x_value + ": " + data[i].y_value.toFixed(2));
+        dot.select("text").text(data[i].x_value + ' 巡目' + ": " + data[i].y_value.toFixed(2));
     }
 
     function entered() {
