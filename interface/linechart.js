@@ -154,7 +154,7 @@ function hover(svg, data, start) {
     function moved() {
         console.log("Move");
         d3.event.preventDefault();
-        const xm = x.invert(d3.event.layerX) - 4;
+        const xm = x.invert(d3.event.layerX) - 19;
         var data_key = []
         for (d in data) {
             data_key.push(d);
