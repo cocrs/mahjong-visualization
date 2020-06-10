@@ -1,0 +1,13 @@
+body {
+    font-family: "Segoe UI", Arial, 'Noto Sans TC', sans-serif;
+    font-weight: 400;
+    font-feature-settings: "palt" 1;
+    width: 800px;
+    margin: auto;
+    margin-top: 30px;
+}
+
+.cloud{
+    width: 800;
+    height: 600;
+}

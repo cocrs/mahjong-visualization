@@ -1,0 +1,30 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="w3.css" type="text/css" rel="stylesheet">
+    <link href="main.css" type="text/css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <h1 style="text-align: center;">日本麻將視覺化</h1>
+    <div class="cloud"></div>
+    <div id='linechart' style="margin:auto;">
+        <svg id="chart" width="550" height="550"></svg>
+        <div>
+            <button class='' checked onclick="update_chart('和了率')">和了率</button>
+            <button onclick="update_chart('平均和了点')">平均和了点</button>
+            <button onclick="update_chart('和了点期待値')">和了点期待値</button>
+        </div>
+    </div>
+</body>
+<script src="d3v3.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+<script src="cloud.js"></script>
+<script src="linechart.js"></script>
+
+</html>
