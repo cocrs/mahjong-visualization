@@ -68,10 +68,10 @@ function wordCloud(selector) {
                 .transition()
                 .style("opacity", 1)
                 .attr("d", function (d) {
-                    label = d.text + "<br/>freq: " + d.freq;
+                    label = d.text + "<br/>出現次數： " + d.freq + "<br/>出現機率： " + (d.freq > 20 ? (d.freq / 2000).toFixed(2) : (d.freq / 2000).toFixed(4)) + "%";
                 });
             let target = this
-            d3v3.selectAll("text")
+            d3v3.selectAll(".cloud text")
                 .transition()
                 .style("opacity", function (t) {
                     return this == target ? 1 : 0.2
@@ -85,7 +85,7 @@ function wordCloud(selector) {
                 .style("visibility", "visible");
         });
         cloud.on("mouseout", function () {
-            d3v3.selectAll("text")
+            d3v3.selectAll(".cloud text")
                 .transition()
                 .style("opacity", 1);
             //d3v3.select(this).style("opacity", 0.7);
