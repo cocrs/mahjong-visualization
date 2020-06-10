@@ -94,7 +94,7 @@ function update(data) {
             .y(function (d) { return y(d.y_value); }))
         .attr("fill", "none")
         .attr("stroke", "steelblue")
-        .attr("stroke-width", 2.5)
+        .attr("stroke-width", 4)
 }
 
 // update y axis label
@@ -132,14 +132,18 @@ function hover(svg, data, start) {
         .attr("display", "none");
 
     dot.append("circle")
-        .attr("r", 2.5);
+        .attr("r", 10)
+        .attr("stroke", "steelblue")
+        .attr("stroke-width", 4)
+        .attr("fill", "white");
 
     dot.append("text")
         .attr("font-family", "sans-serif")
-        .attr("font-size", 10)
+        .attr("font-size", 20)
         .attr("font-weight", "bold")
         .attr("text-anchor", "start")
-        .attr("y", -8);
+        .attr("x", -10)
+        .attr("y", -20);
 
     function not_moved() {
 
@@ -154,7 +158,7 @@ function hover(svg, data, start) {
     function moved() {
         console.log("Move");
         d3.event.preventDefault();
-        const xm = x.invert(d3.event.layerX) - 19;
+        const xm = x.invert(d3.event.offsetX)-3;
         var data_key = []
         for (d in data) {
             data_key.push(d);
@@ -162,6 +166,7 @@ function hover(svg, data, start) {
         const i1 = d3.bisectLeft(data_key, xm, 1);
         const i0 = i1 - 1;
         const i = xm - data_key[i0] > data_key[i1] - xm ? i1 : i0;
+
         dot.attr("transform", `translate(${x(data[i].x_value)},${y(data[i].y_value)})`);
         dot.select("text").text('巡目' + data[i].x_value + ": " + data[i].y_value.toFixed(2));
     }
