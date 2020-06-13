@@ -302,6 +302,7 @@ var vm = new Vue({
 
             d3.select("#action").text(curAtion)
             tmpIndex = targetIndex
+            let listenList = Array(4)
             while (tmpIndex >= 0) {
                 if (this.gameflow.playRecord[tmpIndex].actionNum == 1) {
                     sutePair.push([this.gameflow.playRecord[tmpIndex].detail.targ, this.gameflow.playRecord[tmpIndex].who])
@@ -311,7 +312,7 @@ var vm = new Vue({
                 }
                 if (this.gameflow.playRecord[tmpIndex].actionNum == 2) {
                     let detail = this.gameflow.playRecord[tmpIndex].detail
-                    console.log(detail.type)
+                    //console.log(detail.type)
                     switch (detail.type) {
                         case 0:
                             let minCard = ~~(detail.minCard / 7) * 9 + detail.minCard % 7
@@ -319,15 +320,20 @@ var vm = new Vue({
                             break
                         case 1:
                         case 2:
-                            console.log(detail.targ)
+                            //console.log(detail.targ)
                             cardNumList[detail.targ] -= 1
                             break
                         default:
                             break
                     }
                 }
+                //console.log(this.gameflow.playRecord[tmpIndex])
+                if ('listen' in this.gameflow.playRecord[tmpIndex] && listenList[this.gameflow.playRecord[tmpIndex].who] == undefined) {
+                    listenList[this.gameflow.playRecord[tmpIndex].who] = this.gameflow.playRecord[tmpIndex].listen
+                }
                 tmpIndex--
             }
+            console.log(listenList)
             while (targetList.length < 5 && targetIndex >= 0) {
                 if (this.gameflow.playRecord[targetIndex].actionNum == 0) {
                     targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
@@ -403,6 +409,13 @@ var vm = new Vue({
                             }
                         })
                     })
+                }
+                if (color == "" && listenList[parseInt(d.yy.replace("player", "")) - 1] != undefined) {
+                    if (!skipWaitHai[parseInt(d.yy.replace("player", "")) - 1]) {
+                        if (listenList[parseInt(d.yy.replace("player", "")) - 1].indexOf(parseInt(d.xx)) >= 0) {
+                            color = '#fff25f'
+                        }
+                    }
                 }
                 if (color == "") {
                     color = d3.interpolateGreys(cardLinear(cardNumList[d.xx]))
