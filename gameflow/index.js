@@ -17,9 +17,10 @@ var vm = new Vue({
                         this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
                         //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
                     }
+                    /*
                     if (element.tehai !== undefined) {
                         element.tehai = [].concat(...element.tehai)
-                    }
+                    }*/
                 })
                 //console.log(this.gameflowSute)
                 this.draw_game_board()
@@ -35,6 +36,9 @@ var vm = new Vue({
                 }),
                 'throw': Array(4).fill(null).map(function (_, index) {
                     return !document.getElementById('showThrowP' + (index + 1)).checked
+                }),
+                'call': Array(4).fill(null).map(function (_, index) {
+                    return !document.getElementById('showCallP' + (index + 1)).checked
                 }),
                 'wait': Array(4).fill(null).map(function (_, index) {
                     return !document.getElementById('showWaitP' + (index + 1)).checked
@@ -261,6 +265,7 @@ var vm = new Vue({
             let sutePair = []
             let skipDict = this.getShowStats()
             let skipShowHai = skipDict.hands
+            let skipCallHai = skipDict.call
             let skipThrowHai = skipDict.throw
             let skipWaitHai = skipDict.wait
             let cardNumList = new Array(34).fill(0)
@@ -279,11 +284,19 @@ var vm = new Vue({
             }
             console.log(JSON.parse(JSON.stringify(initCard)))
             initCard.forEach((player, index) => {
-                if (!skipShowHai[index]) {
-                    player.forEach((card) => {
-                        cardNumList[~~(card / 4)]++
-                    })
-                }
+                player.forEach((card) => {
+                    if (typeof card == typeof 0) {
+                        if (!skipShowHai[index]) {
+                            cardNumList[~~(card / 4)]++
+                        }
+                    } else {
+                        card.forEach(c => {
+                            if (!skipCallHai[index]) {
+                                cardNumList[~~(c / 4)]++
+                            }
+                        })
+                    }
+                })
             })
 
 
@@ -294,6 +307,23 @@ var vm = new Vue({
                     sutePair.push([this.gameflow.playRecord[tmpIndex].detail.targ, this.gameflow.playRecord[tmpIndex].who])
                     if (!skipThrowHai[this.gameflow.playRecord[tmpIndex].who]) {
                         cardNumList[~~(this.gameflow.playRecord[tmpIndex].detail.targ / 4)]++
+                    }
+                }
+                if (this.gameflow.playRecord[tmpIndex].actionNum == 2) {
+                    let detail = this.gameflow.playRecord[tmpIndex].detail
+                    console.log(detail.type)
+                    switch (detail.type) {
+                        case 0:
+                            let minCard = ~~(detail.minCard / 7) * 9 + detail.minCard % 7
+                            cardNumList[minCard + detail.targNum] -= 1
+                            break
+                        case 1:
+                        case 2:
+                            console.log(detail.targ)
+                            cardNumList[detail.targ] -= 1
+                            break
+                        default:
+                            break
                     }
                 }
                 tmpIndex--
@@ -329,24 +359,49 @@ var vm = new Vue({
                 })
                 if (color == "") {
                     initCard.forEach((player, playerIndex) => {
-                        if (!skipShowHai[playerIndex]) {
-                            player.every((card, index) => {
-                                if (color == "" && ~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
-                                    d.owner = d.yy
-                                    d.num_of_cards++
-                                    inter = 0.5
-                                    if (targetList.includes(card)) {
-                                        d = 4 - targetList.length
-                                        inter = linear(targetList.indexOf(card) + d)
+                        player.every((card, index) => {
+                            if (typeof card == typeof 0) {
+                                if (!skipShowHai[playerIndex]) {
+                                    if (color == "" && ~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
+                                        d.owner = d.yy
+                                        d.num_of_cards++
+                                        inter = 0.5
+                                        if (targetList.includes(card)) {
+                                            d = 4 - targetList.length
+                                            inter = linear(targetList.indexOf(card) + d)
+                                        }
+                                        player.splice(index, 1)
+                                        //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
+                                        color = d3.interpolatePurples(inter)
+                                        return true
                                     }
+                                    return true
+                                }
+                            } else {
+                                card.forEach(function (c, i) {
+                                    if (!skipCallHai[playerIndex]) {
+                                        if (color == "" && ~~(c / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
+                                            d.owner = d.yy
+                                            d.num_of_cards++
+                                            inter = 0.5
+                                            if (targetList.includes(card)) {
+                                                d = 4 - targetList.length
+                                                inter = linear(targetList.indexOf(card) + d)
+                                            }
+                                            card.splice(i, 1)
+                                            //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
+                                            color = d3.interpolateOranges(inter)
+                                            return true
+                                        }
+                                        return true
+                                    }
+                                })
+                                if (card.length == 0) {
                                     player.splice(index, 1)
-                                    //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
-                                    color = d3.interpolatePurples(inter)
-                                    return false
                                 }
                                 return true
-                            })
-                        }
+                            }
+                        })
                     })
                 }
                 if (color == "") {

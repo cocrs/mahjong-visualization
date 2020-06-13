@@ -51,6 +51,21 @@
                 onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)"
                 checked><label for="showThrowP4">Player 4</label><br>
         </div>
+        <div id='showThrew' style="display: inline-block;width: 100px;">
+            <h4>顯示鳴牌</h4>
+            <input type="checkbox" id='showCallP1'
+                onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)"
+                checked><label for="showCallP1">Player 1</label><br>
+            <input type="checkbox" id='showCallP2'
+                onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)"
+                checked><label for="showCallP2">Player 2</label><br>
+            <input type="checkbox" id='showCallP3'
+                onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)"
+                checked><label for="showCallP3">Player 3</label><br>
+            <input type="checkbox" id='showCallP4'
+                onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)"
+                checked><label for="showCallP4">Player 4</label><br>
+        </div>
         <div id='showWait' style="display: inline-block;width: 100px;">
             <h4>顯示聽牌</h4>
             <input type="checkbox" id='showWaitP1'
