@@ -25,7 +25,7 @@ var vm = new Vue({
                 //console.log(this.gameflowSute)
                 this.draw_game_board()
                 this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1)
-                this.slider(this.gameflow.initCard, this.gameflow.playRecord, 1)
+                this.slider(JSON.parse(JSON.stringify(this.gameflow.initCard)), this.gameflow.playRecord, 1)
             })
     },
     methods: {
@@ -430,8 +430,8 @@ var vm = new Vue({
             gameLength = gameflowSute.length
             // console.log(gameLength)
             var dataTime = []
-            for (i = 1; i <= gameLength + 1; i++) {
-                if (i % 4 == 0 || i == 1 || i == gameLength + 1) {
+            for (i = 1; i <= gameLength; i++) {
+                if (i % 5 == 0 || i == 1 || i == gameLength) {
                     dataTime.push(i)
                 }
             }
@@ -446,7 +446,7 @@ var vm = new Vue({
                 .tickValues(dataTime)
                 .default(1)
                 .on("onchange", (val) => {
-                    // console.log(val)
+                    console.log("val", JSON.parse(JSON.stringify(val)))
                     this.curSliderValue = val
                     this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2)
                 })
@@ -468,9 +468,11 @@ var vm = new Vue({
                     for (i = 0; i < playerLeft.length; i++) {
                         if (gameflowSute[curkyoku].who == playerLeft[i]) {
                             playerLeft.splice(i, 1)
+                            break
                         }
                     }
                     initCard[gameflowSute[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSute[curkyoku].tehai))
+                    
                 }
                 curkyoku--
             }
@@ -486,7 +488,7 @@ var vm = new Vue({
             //     }
             //   }
             // }
-
+            console.log("here",initCard)
             this.init_board(initCard, tmp)
         },
     },
