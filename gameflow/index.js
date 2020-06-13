@@ -312,6 +312,7 @@ var vm = new Vue({
                 }
                 if (this.gameflow.playRecord[tmpIndex].actionNum == 2) {
                     let detail = this.gameflow.playRecord[tmpIndex].detail
+                    let who = this.gameflow.playRecord[tmpIndex].who
                     //console.log(detail.type)
                     switch (detail.type) {
                         case 0:
@@ -321,7 +322,9 @@ var vm = new Vue({
                         case 1:
                         case 2:
                             //console.log(detail.targ)
-                            cardNumList[detail.targ] -= 1
+                            if (!skipCallHai[who]) {
+                                cardNumList[detail.targ] -= 1
+                            }
                             break
                         default:
                             break
