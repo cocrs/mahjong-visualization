@@ -2,14 +2,17 @@ var fileList
 $.getJSON('gameflowFileList.json').done(function(data) {
     fileList = data
 
-
-    console.log(fileList)
-
     for (index in fileList) {
-        let option = $('<option>').appendTo('#gameflowSelector')
+        let option = $('<option>').appendTo($('#gameflowSelector'))
         option.attr('value', fileList[index])
         option.html('Game' + index)
     }
+
+    $('#gameflowSelector').change(function(event) {
+        $('#game_board').empty()
+        $('#slider-time').empty()
+        resetVm()
+    })
 
     var vm
 

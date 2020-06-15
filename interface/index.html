@@ -11,11 +11,15 @@
 
 <body>
     <h1 style="text-align: center;">日本麻將視覺化</h1>
-    <div class="cloud mainContent"></div>
+    <p style="text-align: center;">分析資料來自日本線上麻將遊戲<a href="https://tenhou.net/">天鳯</a></p>
+    <div class="cloud mainContent" style='margin-top:10px'></div>
     <div id='linechart' class='mainContent'>
         <div id='lineChartTitle'>
             <h2>聽牌時間統計資料</h2>
         </div>
+        <p>下圖為聽牌時間（以巡為單位）與和牌點數及機率的折線圖</p>
+        <p>可以看到除了第一巡及最後一巡，基本上和牌的點數是差不多的</p>
+        <p>和牌點數期望值大約每5~6巡會下降1000點，如果沒有把握能夠增加1000點以上的和牌點數，可以選擇直接聽牌。</p>
         <svg id="chart" width="550" height="550"></svg>
         <div style='display: inline-block;vertical-align: bottom; height: 94;'>
             <button class='' checked onclick="update_chart('和了率')">和了率</button>
@@ -28,8 +32,27 @@
             <h2>牌局視覺化</h2>
         </div>
         <div id='gameFlowSelectorContainer'>
+            <span>請選擇一個牌局</span>
             <select name="gameflowSelector" id="gameflowSelector"></select>
         </div>
+        <p>這個視覺化圖形使用的資料為挑選過的資料，能夠幫助防守策略分析，挑選的條件如下：</p>
+        <p style='text-indent: 30px;'>1. 和牌點數為20000點以上</p>
+        <p style='text-indent: 30px;'>2. 為放銃和牌（非自摸和牌）</p>
+        <p>下圖為單一牌局的視覺化，拉動拉桿能夠在牌局的各個時間軸上面做切換。</p>
+        <p>圖下可以勾選想要顯示的類別</p>
+        <p>使用顏色說明：</p>
+        <p>
+            <div class='rectangle' style="background-color: gray;"></div>為該玩家不曾擁有的牌，顏色愈深代表該牌已經出現的次數愈多，
+        </p>
+        <p>
+            <div class='rectangle' style="background-color: purple;"></div>為該玩家目前擁有的牌，顏色愈淺代表愈早擁有該牌</p>
+        <p>
+            <div class='rectangle' style="background-color: #0ff2f2;"></div>為該玩家已經丟出的牌，顏色愈深代表愈早丟出該牌</p>
+        <p>
+            <div class='rectangle' style="background-color: orange;"></div>為該玩家的副露（吃、碰、槓的牌），被叫的牌不會從圖中刪除，但計算總數時只會計算一次。</p>
+        <p>
+            <div class='rectangle' style="background-color: #fff25f;"></div>為該玩家的聽牌</p>
+
         <div id='gameFlowGraph'>
             <div id="game_board"></div>
             <div class="slidercontainer"></div>
