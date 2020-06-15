@@ -44,8 +44,8 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                             })
                             //console.log(this.gameflowSute)
                         this.draw_game_board()
-                        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initCard)), -1)
-                        this.slider(JSON.parse(JSON.stringify(this.gameflow.initCard)), this.gameflow.playRecord, 1)
+                        this.init_board(JSON.parse(JSON.stringify(this.gameflow.initBoard)), -1)
+                        this.slider(JSON.parse(JSON.stringify(this.gameflow.initBoard)), this.gameflow.playRecord, 1)
                     })
             },
             methods: {
@@ -398,7 +398,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                                                     inter = linear(targetList.indexOf(card) + d)
                                                 }
                                                 player.splice(index, 1)
-                                                    //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
+                                                    //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
                                                 color = d3.interpolatePurples(inter)
                                                 return true
                                             }
@@ -416,7 +416,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                                                         inter = linear(targetList.indexOf(card) + d)
                                                     }
                                                     card.splice(i, 1)
-                                                        //console.log(gameflow.initCard[playerIndex], ~~(card / 4))
+                                                        //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
                                                     color = d3.interpolateOranges(inter)
                                                     return true
                                                 }
@@ -445,6 +445,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                     })
                 },
                 slider(initCard, gameflowSute) {
+                    console.log(initCard)
                     gameLength = gameflowSute.length
                         // console.log(gameLength)
                     var dataTime = []
@@ -466,6 +467,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .on("onchange", (val) => {
                             console.log("val", JSON.parse(JSON.stringify(val)))
                             this.curSliderValue = val
+                            console.log(JSON.stringify(initCard))
                             this.update(JSON.parse(JSON.stringify(initCard)), gameflowSute, val - 2)
                         })
 
@@ -488,6 +490,9 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                                     playerLeft.splice(i, 1)
                                     break
                                 }
+                            }
+                            while (!gameflowSute[curkyoku].tehai) {
+                                curkyoku -= 1
                             }
                             initCard[gameflowSute[curkyoku].who] = JSON.parse(JSON.stringify(gameflowSute[curkyoku].tehai))
 

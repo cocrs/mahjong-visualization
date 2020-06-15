@@ -67,31 +67,31 @@
             <div id='attrSelect'>
                 <div id='showHands' style="display: inline-block;width: 100px;">
                     <h4>顯示手牌</h4>
-                    <input type="checkbox" id='showHandsP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP1">Player 1</label><br>
-                    <input type="checkbox" id='showHandsP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP2">Player 2</label><br>
-                    <input type="checkbox" id='showHandsP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP3">Player 3</label><br>
-                    <input type="checkbox" id='showHandsP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP4">Player 4</label><br>
+                    <input type="checkbox" id='showHandsP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP1">Player 1</label><br>
+                    <input type="checkbox" id='showHandsP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP2">Player 2</label><br>
+                    <input type="checkbox" id='showHandsP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP3">Player 3</label><br>
+                    <input type="checkbox" id='showHandsP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP4">Player 4</label><br>
                 </div>
                 <div id='showThrew' style="display: inline-block;width: 100px;">
                     <h4>顯示捨牌</h4>
-                    <input type="checkbox" id='showThrowP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP1">Player 1</label><br>
-                    <input type="checkbox" id='showThrowP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP2">Player 2</label><br>
-                    <input type="checkbox" id='showThrowP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP3">Player 3</label><br>
-                    <input type="checkbox" id='showThrowP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP4">Player 4</label><br>
+                    <input type="checkbox" id='showThrowP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP1">Player 1</label><br>
+                    <input type="checkbox" id='showThrowP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP2">Player 2</label><br>
+                    <input type="checkbox" id='showThrowP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP3">Player 3</label><br>
+                    <input type="checkbox" id='showThrowP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP4">Player 4</label><br>
                 </div>
                 <div id='showThrew' style="display: inline-block;width: 100px;">
                     <h4>顯示鳴牌</h4>
-                    <input type="checkbox" id='showCallP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP1">Player 1</label><br>
-                    <input type="checkbox" id='showCallP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP2">Player 2</label><br>
-                    <input type="checkbox" id='showCallP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP3">Player 3</label><br>
-                    <input type="checkbox" id='showCallP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP4">Player 4</label><br>
+                    <input type="checkbox" id='showCallP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP1">Player 1</label><br>
+                    <input type="checkbox" id='showCallP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP2">Player 2</label><br>
+                    <input type="checkbox" id='showCallP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP3">Player 3</label><br>
+                    <input type="checkbox" id='showCallP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP4">Player 4</label><br>
                 </div>
                 <div id='showWait' style="display: inline-block;width: 100px;">
                     <h4>顯示聽牌</h4>
-                    <input type="checkbox" id='showWaitP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP1">Player 1</label><br>
-                    <input type="checkbox" id='showWaitP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP2">Player 2</label><br>
-                    <input type="checkbox" id='showWaitP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP3">Player 3</label><br>
-                    <input type="checkbox" id='showWaitP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP4">Player 4</label><br>
+                    <input type="checkbox" id='showWaitP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP1">Player 1</label><br>
+                    <input type="checkbox" id='showWaitP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP2">Player 2</label><br>
+                    <input type="checkbox" id='showWaitP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP3">Player 3</label><br>
+                    <input type="checkbox" id='showWaitP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initBoard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP4">Player 4</label><br>
                 </div>
             </div>
         </div>
