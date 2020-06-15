@@ -1,7 +1,7 @@
 var LineDataset = { "和了率": [], "平均和了点": [], "和了点期待値": [] };
 
 // data
-d3.json("./agariJunme.json").then(function (json) {
+d3.json("./agariJunme.json").then(function(json) {
     for (j in json) {
         for (d in LineDataset) {
             console.log(LineDataset[d])
@@ -37,13 +37,6 @@ svg.append("g")
     .attr("class", "yAxis")
 
 // title
-svg.append("text")
-    .attr("text-anchor", "middle")
-    .attr("font-weight", "bold")
-    .style("font-size", "20px")
-    .attr("x", (width / 2))
-    .attr("y", (margin.top))
-    .text("麻將折線圖");
 
 // x axis text
 svg.append("text")
@@ -67,13 +60,13 @@ var y_label = svg.append('text')
 // update x axis, y axis, line
 function update(data) {
     // x axis
-    x.domain([1, d3.max(data, function (d) { return d.x_value })]);
+    x.domain([1, d3.max(data, function(d) { return d.x_value })]);
     svg.selectAll(".xAxis").transition()
         .duration(2000)
         .call(xAxis);
 
     // y axis
-    y.domain([0, d3.max(data, function (d) { return d.y_value })]);
+    y.domain([0, d3.max(data, function(d) { return d.y_value })]);
     svg.selectAll(".yAxis")
         .transition()
         .duration(2000)
@@ -81,7 +74,7 @@ function update(data) {
 
     // line
     var line = svg.selectAll(".line")
-        .data([data], function (d) { return d.x_value });
+        .data([data], function(d) { return d.x_value });
 
     line.enter()
         .append("path")
@@ -90,8 +83,8 @@ function update(data) {
         .transition()
         .duration(2000)
         .attr("d", d3.line()
-            .x(function (d) { return x(d.x_value); })
-            .y(function (d) { return y(d.y_value); }))
+            .x(function(d) { return x(d.x_value); })
+            .y(function(d) { return y(d.y_value); }))
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 4)
@@ -116,16 +109,16 @@ function hover(svg, data, start) {
         return
     }
     if ("ontouchstart" in document)
-        // Touch
+    // Touch
         svg.style("-webkit-tap-highlight-color", "transparent")
-            .on("touchmove", moved)
-            .on("touchstart", entered)
-            .on("touchend", left)
+        .on("touchmove", moved)
+        .on("touchstart", entered)
+        .on("touchend", left)
     else
-        // Mouse
+    // Mouse
         svg.on("mousemove", moved)
-            .on("mouseenter", entered)
-            .on("mouseleave", left);
+        .on("mouseenter", entered)
+        .on("mouseleave", left);
 
     // Dot
     const dot = svg.append("g")
@@ -148,9 +141,11 @@ function hover(svg, data, start) {
     function not_moved() {
 
     }
+
     function not_entered() {
 
     }
+
     function not_left() {
 
     }

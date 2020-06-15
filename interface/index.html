@@ -4,29 +4,85 @@
     <meta charset="UTF-8" />
     <link href="w3.css" type="text/css" rel="stylesheet">
     <link href="main.css" type="text/css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
 
 </head>
 
 <body>
     <h1 style="text-align: center;">日本麻將視覺化</h1>
-    <div class="cloud"></div>
-    <div id='linechart' style="margin:auto;">
+    <div class="cloud mainContent"></div>
+    <div id='linechart' class='mainContent'>
+        <div id='lineChartTitle'>
+            <h2>聽牌時間統計資料</h2>
+        </div>
         <svg id="chart" width="550" height="550"></svg>
-        <div>
+        <div style='display: inline-block;vertical-align: bottom; height: 94;'>
             <button class='' checked onclick="update_chart('和了率')">和了率</button>
             <button onclick="update_chart('平均和了点')">平均和了点</button>
             <button onclick="update_chart('和了点期待値')">和了点期待値</button>
         </div>
     </div>
+    <div id='gameFlow' class='mainContent'>
+        <div id='gameFlowTitle'>
+            <h2>牌局視覺化</h2>
+        </div>
+        <div id='gameFlowSelectorContainer'>
+            <select name="gameflowSelector" id="gameflowSelector"></select>
+        </div>
+        <div id='gameFlowGraph'>
+            <div id="game_board"></div>
+            <div class="slidercontainer"></div>
+            <div class="row_align-items-center">
+                <div class="col-sm-2">
+                    <h1 id="value-time"></h1>
+                </div>
+                <div class="col-sm">
+                    <div id="slider-time"></div>
+                </div>
+            </div>
+            <div id='attrSelect'>
+                <div id='showHands' style="display: inline-block;width: 100px;">
+                    <h4>顯示手牌</h4>
+                    <input type="checkbox" id='showHandsP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP1">Player 1</label><br>
+                    <input type="checkbox" id='showHandsP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP2">Player 2</label><br>
+                    <input type="checkbox" id='showHandsP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP3">Player 3</label><br>
+                    <input type="checkbox" id='showHandsP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showHandsP4">Player 4</label><br>
+                </div>
+                <div id='showThrew' style="display: inline-block;width: 100px;">
+                    <h4>顯示捨牌</h4>
+                    <input type="checkbox" id='showThrowP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP1">Player 1</label><br>
+                    <input type="checkbox" id='showThrowP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP2">Player 2</label><br>
+                    <input type="checkbox" id='showThrowP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP3">Player 3</label><br>
+                    <input type="checkbox" id='showThrowP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showThrowP4">Player 4</label><br>
+                </div>
+                <div id='showThrew' style="display: inline-block;width: 100px;">
+                    <h4>顯示鳴牌</h4>
+                    <input type="checkbox" id='showCallP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP1">Player 1</label><br>
+                    <input type="checkbox" id='showCallP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP2">Player 2</label><br>
+                    <input type="checkbox" id='showCallP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP3">Player 3</label><br>
+                    <input type="checkbox" id='showCallP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showCallP4">Player 4</label><br>
+                </div>
+                <div id='showWait' style="display: inline-block;width: 100px;">
+                    <h4>顯示聽牌</h4>
+                    <input type="checkbox" id='showWaitP1' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP1">Player 1</label><br>
+                    <input type="checkbox" id='showWaitP2' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP2">Player 2</label><br>
+                    <input type="checkbox" id='showWaitP3' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP3">Player 3</label><br>
+                    <input type="checkbox" id='showWaitP4' onclick="vm.update(JSON.parse(JSON.stringify(vm.gameflow.initCard)), vm.gameflow.playRecord, vm.curSliderValue - 2)" checked><label for="showWaitP4">Player 4</label><br>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/d3-simple-slider"></script>
 <script src="d3v3.js"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="https://rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script src="cloud.js"></script>
 <script src="linechart.js"></script>
+<script src="gameflow.js"></script>
 
 </html>
