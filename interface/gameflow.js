@@ -73,6 +73,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                     // append the svg object to the body of the page
                     var svg = d3
                         .select("#game_board")
+                        .style("text-align", "center")
                         .append("svg")
                         .attr("width", width + margin.left + margin.right)
                         .attr("height", height + margin.top + margin.bottom)
@@ -268,7 +269,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                     svg
                         .append("text")
                         .attr("id", "action")
-                        .attr("x", 120)
+                        .attr("x", 0)
                         .attr("y", -20)
                         .style("font-size", "22px")
                         .style("font-weight", "bold")
