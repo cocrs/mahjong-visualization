@@ -1,6 +1,6 @@
 var fileList
 var vm
-$.getJSON('gameflowFileList.json').done(function(data) {
+$.getJSON('gameflowFileList.json').done(function (data) {
     fileList = data
 
     for (index in fileList) {
@@ -9,7 +9,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
         option.html('Game' + index)
     }
 
-    $('#gameflowSelector').change(function(event) {
+    $('#gameflowSelector').change(function (event) {
         $('#game_board').empty()
         $('#slider-time').empty()
         resetVm()
@@ -31,17 +31,17 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         this.gameflowSute = []
                         this.curSliderValue = 1
                         this.gameflow.playRecord.forEach((element) => {
-                                if (element.actionNum == 1) {
-                                    this.gameflowSute.push(JSON.parse(JSON.stringify(element)))
-                                    this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
-                                        //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
-                                }
-                                /*
-                                if (element.tehai !== undefined) {
-                                    element.tehai = [].concat(...element.tehai)
-                                }*/
-                            })
-                            //console.log(this.gameflowSute)
+                            if (element.actionNum == 1) {
+                                this.gameflowSute.push(JSON.parse(JSON.stringify(element)))
+                                this.gameflowSute[this.gameflowSute.length - 1].tehai = [].concat(...this.gameflowSute[this.gameflowSute.length - 1].tehai)
+                                //console.log(this.gameflowSute[this.gameflowSute.length -1].tehai)
+                            }
+                            /*
+                            if (element.tehai !== undefined) {
+                                element.tehai = [].concat(...element.tehai)
+                            }*/
+                        })
+                        //console.log(this.gameflowSute)
                         this.draw_game_board()
                         this.init_board(JSON.parse(JSON.stringify(this.gameflow.initBoard)), -1)
                         this.slider(JSON.parse(JSON.stringify(this.gameflow.initBoard)), this.gameflow.playRecord, 1)
@@ -50,18 +50,25 @@ $.getJSON('gameflowFileList.json').done(function(data) {
             methods: {
                 getShowStats() {
                     return {
-                        'hands': Array(4).fill(null).map(function(_, index) {
+                        'hands': Array(4).fill(null).map(function (_, index) {
                             return !document.getElementById('showHandsP' + (index + 1)).checked
                         }),
-                        'throw': Array(4).fill(null).map(function(_, index) {
+                        'throw': Array(4).fill(null).map(function (_, index) {
                             return !document.getElementById('showThrowP' + (index + 1)).checked
                         }),
-                        'call': Array(4).fill(null).map(function(_, index) {
+                        'call': Array(4).fill(null).map(function (_, index) {
                             return !document.getElementById('showCallP' + (index + 1)).checked
                         }),
-                        'wait': Array(4).fill(null).map(function(_, index) {
+                        'wait': Array(4).fill(null).map(function (_, index) {
                             return !document.getElementById('showWaitP' + (index + 1)).checked
                         }),
+                        'help': [
+                            $('#showMan').prop('checked'),
+                            $('#showSo').prop('checked'),
+                            $('#showPin').prop('checked'),
+                            $('#showTsu').prop('checked'),
+                            $('#showYao').prop('checked'),
+                        ]
                     }
                 },
                 draw_game_board() {
@@ -127,7 +134,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .selectAll(".tick")
                         .data(myPics)
                         .append("svg:image")
-                        .attr("xlink:href", function(d) {
+                        .attr("xlink:href", function (d) {
                             return d.img
                         })
                         .attr("width", 30)
@@ -153,7 +160,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .style("padding", "5px")
 
                     // Three function that change the tooltip when user hover / move / leave a cell
-                    var mouseover = function(d) {
+                    var mouseover = function (d) {
                         tooltip.style("opacity", 1)
                         curx = d.xx
                         cury = d.yy
@@ -164,17 +171,17 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                             return 0.8
                         })
                     }
-                    var mousemove = function(d) {
+                    var mousemove = function (d) {
                         tooltip
                             .html(d.yy + "<br/>持有數: " + d.num_of_cards)
                             .style("left", d3.event.pageX - 20 + "px")
                             .style("top", d3.event.pageY + 20 + "px")
                     }
-                    var mouseleave = function(d) {
-                            tooltip.style("opacity", 0)
-                            d3.selectAll("rect").style("opacity", 0.8)
-                        }
-                        // square data
+                    var mouseleave = function (d) {
+                        tooltip.style("opacity", 0)
+                        d3.selectAll("rect").style("opacity", 0.8)
+                    }
+                    // square data
                     var num_of_blocks = []
                     for (i = 0; i < 4; i++) {
                         for (j = 0; j < 34; j++) {
@@ -188,10 +195,10 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .data(num_of_blocks)
                         .enter()
                         .append("rect")
-                        .attr("x", function(d) {
+                        .attr("x", function (d) {
                             return x(d.xx)
                         })
-                        .attr("y", function(d) {
+                        .attr("y", function (d) {
                             return y(d.yy) + 18.6
                         })
                         .attr("width", x.bandwidth() / 2)
@@ -208,10 +215,10 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .data(num_of_blocks)
                         .enter()
                         .append("rect")
-                        .attr("x", function(d) {
+                        .attr("x", function (d) {
                             return x(d.xx) + 13.10
                         })
-                        .attr("y", function(d) {
+                        .attr("y", function (d) {
                             return y(d.yy) + 18.6
                         })
                         .attr("width", x.bandwidth() / 2)
@@ -228,10 +235,10 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .data(num_of_blocks)
                         .enter()
                         .append("rect")
-                        .attr("x", function(d) {
+                        .attr("x", function (d) {
                             return x(d.xx)
                         })
-                        .attr("y", function(d) {
+                        .attr("y", function (d) {
                             return y(d.yy)
                         })
                         .attr("width", x.bandwidth() / 2)
@@ -248,10 +255,10 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         .data(num_of_blocks)
                         .enter()
                         .append("rect")
-                        .attr("x", function(d) {
+                        .attr("x", function (d) {
                             return x(d.xx) + 13.10
                         })
-                        .attr("y", function(d) {
+                        .attr("y", function (d) {
                             return y(d.yy)
                         })
                         .attr("width", x.bandwidth() / 2)
@@ -285,6 +292,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                     let skipCallHai = skipDict.call
                     let skipThrowHai = skipDict.throw
                     let skipWaitHai = skipDict.wait
+                    let showHelp = skipDict.help
                     let cardNumList = new Array(34).fill(0)
                     if (targetIndex >= 0) {
                         switch (this.gameflow.playRecord[targetIndex].actionNum) {
@@ -330,7 +338,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                         if (this.gameflow.playRecord[tmpIndex].actionNum == 2) {
                             let detail = this.gameflow.playRecord[tmpIndex].detail
                             let who = this.gameflow.playRecord[tmpIndex].who
-                                //console.log(detail.type)
+                            //console.log(detail.type)
                             switch (detail.type) {
                                 case 0:
                                     let minCard = ~~(detail.minCard / 7) * 9 + detail.minCard % 7
@@ -357,11 +365,11 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                     while (targetList.length < 5 && targetIndex >= 0) {
                         if (this.gameflow.playRecord[targetIndex].actionNum == 0) {
                             targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
-                                // console.log(targetCard)
+                            // console.log(targetCard)
                         } else if (this.gameflow.playRecord[targetIndex].actionNum == 2) {
                             targetIndex--
                             targetList.unshift(this.gameflow.playRecord[targetIndex].detail.targ)
-                                // console.log(targetCard)
+                            // console.log(targetCard)
                         }
                         targetIndex--
                     }
@@ -391,31 +399,31 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                                             if (color == "" && ~~(card / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
                                                 d.owner = d.yy
                                                 d.num_of_cards++
-                                                    inter = 0.5
+                                                inter = 0.5
                                                 if (targetList.includes(card)) {
                                                     d = 4 - targetList.length
                                                     inter = linear(targetList.indexOf(card) + d)
                                                 }
                                                 player.splice(index, 1)
-                                                    //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
+                                                //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
                                                 color = d3.interpolatePurples(inter)
                                                 return true
                                             }
                                             return true
                                         }
                                     } else {
-                                        card.forEach(function(c, i) {
+                                        card.forEach(function (c, i) {
                                             if (!skipCallHai[playerIndex]) {
                                                 if (color == "" && ~~(c / 4) == d.xx && playerIndex == parseInt(d.yy.replace("player", "")) - 1) {
                                                     d.owner = d.yy
                                                     d.num_of_cards++
-                                                        inter = 0.5
+                                                    inter = 0.5
                                                     if (targetList.includes(card)) {
                                                         d = 4 - targetList.length
                                                         inter = linear(targetList.indexOf(card) + d)
                                                     }
                                                     card.splice(i, 1)
-                                                        //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
+                                                    //console.log(gameflow.initBoard[playerIndex], ~~(card / 4))
                                                     color = d3.interpolateOranges(inter)
                                                     return true
                                                 }
@@ -438,6 +446,20 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                             }
                         }
                         if (color == "") {
+                            let helpTable = [
+                                [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                                [9, 10, 11, 12, 13, 14, 15, 16, 17],
+                                [18, 19, 20, 21, 22, 23, 24, 25, 26],
+                                [27, 28, 29, 30, 31, 32, 33],
+                                [0, 8, 9, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33]
+                            ]
+                            for (i in showHelp) {
+                                if (showHelp[i] && helpTable[i].indexOf(parseInt(d.xx)) >= 0) {
+                                    color = 'green'
+                                }
+                            }
+                        }
+                        if (color == "") {
                             color = d3.interpolateGreys(cardLinear(cardNumList[d.xx]))
                         }
                         return color
@@ -446,7 +468,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                 slider(initCard, gameflowSute) {
                     console.log(initCard)
                     gameLength = gameflowSute.length
-                        // console.log(gameLength)
+                    // console.log(gameLength)
                     var dataTime = []
                     for (i = 1; i <= gameLength; i++) {
                         if (i % 5 == 0 || i == 1 || i == gameLength) {
@@ -477,7 +499,7 @@ $.getJSON('gameflowFileList.json').done(function(data) {
                 update(initCard, gameflowSute, curkyoku) {
                     tmp = curkyoku
                     playerLeft = [0, 1, 2, 3]
-                        // console.log(curkyoku, gameflowSute[curkyoku])
+                    // console.log(curkyoku, gameflowSute[curkyoku])
                     d3.selectAll("rect").style("fill", (d) => {
                         d.owner = "無"
                         d.num_of_cards = 0
