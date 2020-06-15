@@ -1,4 +1,5 @@
 var fileList
+var vm
 $.getJSON('gameflowFileList.json').done(function(data) {
     fileList = data
 
@@ -13,8 +14,6 @@ $.getJSON('gameflowFileList.json').done(function(data) {
         $('#slider-time').empty()
         resetVm()
     })
-
-    var vm
 
     function resetVm() {
         vm = new Vue({
