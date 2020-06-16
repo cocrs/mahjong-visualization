@@ -455,7 +455,7 @@ $.getJSON('gameflowFileList.json').done(function (data) {
                             ]
                             for (i in showHelp) {
                                 if (showHelp[i] && helpTable[i].indexOf(parseInt(d.xx)) >= 0) {
-                                    color = 'green'
+                                    color = '#c8e6c9'
                                 }
                             }
                         }
